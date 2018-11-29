@@ -1,7 +1,6 @@
 - defaults:
     link:
         relink: true
-        force: true
 
 - clean: ['~', '~/.config']
 
@@ -11,7 +10,7 @@
     ~/.vimrc:
     ~/.zshrc:
     ~/.editorconfig:
-    ~/.local/config/init.vim: nvimrc
+    ~/.config/nvim/init.vim: nvim_init
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
