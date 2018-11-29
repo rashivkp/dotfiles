@@ -8,6 +8,7 @@
 - tmux
 - silversearcher-ag
 - fzy
+- tmuxinator
 
 
 ## Installation
