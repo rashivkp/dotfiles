@@ -9,6 +9,7 @@
 - silversearcher-ag
 - fzy
 - tmuxinator
+- pip
 
 
 ## Installation
