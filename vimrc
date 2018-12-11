@@ -108,7 +108,7 @@ nnoremap <C-p> :Denite file_rec<cr>
 "nnoremap <space>s :Denite file_rec -default-action=split<cr>
 "nnoremap <space>e :Denite file_rec -winheight=10 <cr>
 "nnoremap <space>m :Denite file_mru -winheight=10 -vertical-preview -auto-preview <cr>
-"nnoremap <space>l :Denite line -auto-preview<cr>
+nnoremap <space>l :Denite line -auto-preview<cr>
 " }}}
 
 function! FzyCommand(choice_command, vim_command)

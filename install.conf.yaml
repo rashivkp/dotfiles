@@ -11,6 +11,7 @@
     ~/.zshrc:
     ~/.editorconfig:
     ~/.config/nvim/init.vim: nvim_init
+    ~/.oh-my-zsh/custom/themes/customfishy.zsh-theme: zsh/customfishy.zsh-theme
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

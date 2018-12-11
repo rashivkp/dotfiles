@@ -2,7 +2,7 @@
 export PATH=$HOME/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 export ZSH=/home/qburst/.oh-my-zsh
-ZSH_THEME="fishy"
+ZSH_THEME="customfishy"
 HIST_STAMPS="dd-mm-yyyy"
 source $ZSH/oh-my-zsh.sh
 
