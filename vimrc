@@ -93,8 +93,8 @@ call denite#custom#map(
       \)
 
 " Change sorters.
-call denite#custom#source(
-      \ 'file_rec', 'sorters', ['sorter_sublime'])
+call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
+call denite#custom#source('line', 'matchers', ['matcher/fuzzy'])
 
 " Change default prompt
 call denite#custom#option('default', 'prompt', '➤ ')
