@@ -94,6 +94,7 @@ call denite#custom#map(
 
 " Change sorters.
 call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
+"call denite#custom#source('line', 'sorters', ['sorter/sublime'])
 call denite#custom#source('line', 'matchers', ['matcher/fuzzy'])
 
 " Change default prompt
@@ -123,7 +124,21 @@ function! FzyCommand(choice_command, vim_command)
   endif
 endfunction
 
+function! FzyCommandWithLines(choice_command, vim_command)
+  try
+    let output = system(a:choice_command . " | fzy ")
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec a:vim_command . strpart(output, 0, strlen(output)-1)
+  endif
+endfunction
+
 nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe")<cr>
 nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
 nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
 nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
+nnoremap <leader>l :call FzyCommandWithLines("cat " . @%, "?")<cr>
+
