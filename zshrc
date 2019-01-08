@@ -1,7 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-export ZSH=/home/qburst/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 ZSH_THEME="customfishy"
 HIST_STAMPS="dd-mm-yyyy"
 source $ZSH/oh-my-zsh.sh
@@ -18,7 +18,7 @@ export NVM_DIR="$HOME/.nvm"
 # command completions docker @see https://docs.docker.com/compose/completion/#install-command-completion
 fpath=(~/.zsh/completion $fpath)
 
-# tmuxinator https://github.com/tmuxinator/tmuxinator
+# tmuxinator completions https://github.com/tmuxinator/tmuxinator
 source ~/.bin/tmuxinator.zsh
 export EDITOR='vim'
 
