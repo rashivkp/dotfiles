@@ -6,9 +6,9 @@
 - vim
 - zsh
 - tmux
-- silversearcher-ag
-- fzy
-- tmuxinator
+- [silversearcher-ag](https://github.com/ggreer/the_silver_searcher)
+- [fzy](https://github.com/jhawthorn/fzy)
+- [tmuxinator](https://github.com/tmuxinator/tmuxinator)
 - pip
 
 
