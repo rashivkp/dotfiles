@@ -10,5 +10,3 @@ if [ ! -d ~/.zplug ]; then
 else
   echo "zplug already Installed"
 fi
-
-python -m pip install virtualenvwrapper --user
