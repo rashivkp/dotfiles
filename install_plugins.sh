@@ -1,10 +1,13 @@
-# install tmux plugins
-echo "Install tmux plugins"
-~/.tmux/plugins/tpm/scripts/install_plugins.sh
+# Install tmux plugins
+echo "Installing tmux plugins"
+mkdir -p ~/.tmux/plugins
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
 
 # zsh plugin manager
-echo "Install zplug"
+echo "Installing zplug"
 if [ ! -d ~/.zplug ]; then
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 else

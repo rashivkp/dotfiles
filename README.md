@@ -12,6 +12,7 @@
 - [tmuxinator](https://github.com/tmuxinator/tmuxinator)
 - pip
 - [ack](https://beyondgrep.com/install/) 
+- exuberant-ctags
 
 
 ## Installation
