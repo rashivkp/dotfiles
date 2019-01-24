@@ -13,6 +13,7 @@
 - pip
 - [ack](https://beyondgrep.com/install/) 
 - exuberant-ctags
+- git
 
 
 ## Installation

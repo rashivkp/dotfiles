@@ -10,11 +10,13 @@
     ~/.vimrc:
     ~/.zshrc:
     ~/.editorconfig:
+    ~/.gitignore:
     ~/.config/nvim/init.vim: nvim_init
     ~/.oh-my-zsh/custom/themes/customfishy.zsh-theme: zsh/customfishy.zsh-theme
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
+  - [git config --global core.excludesfile '~/.gitignore']
   - ["curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", Install vim plugin-manager Plug]
   - [vim +PlugInstall +qall, Installing vim plugins...]
   - ['sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"', Installing oh-my-zsh]
