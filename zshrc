@@ -20,13 +20,14 @@ fpath=(~/.zsh/completion $fpath)
 
 # tmuxinator completions https://github.com/tmuxinator/tmuxinator
 source ~/.bin/tmuxinator.zsh
-export EDITOR='vim'
+export EDITOR="nvim"
 
 
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-history-substring-search"
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/virtualenvwrapper", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
 # Syntax highlighting for commands, load last
 zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:3
@@ -44,3 +45,6 @@ zplug load
 if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
   workon_cwd
 fi
+alias vim="nvim"
+alias vi="nvim"
+alias vimdiff='nvim -d'

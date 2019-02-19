@@ -11,25 +11,77 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'jeetsukumaran/vim-pythonsense' "python movements
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'Konfekt/FastFold'
-Plug 'davidhalter/jedi-vim'
-Plug 'Yggdroot/indentLine'
-Plug 'majutsushi/tagbar'
-Plug 'w0rp/ale'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'Yggdroot/indentLine' "display the indention levels with thin vertical lines 
+Plug 'majutsushi/tagbar' "easy way to browse the tags of the current file
+Plug 'w0rp/ale' "asynchronous lint engine
+Plug 'tpope/vim-fugitive' "git wrapper
+Plug 'airblade/vim-gitgutter' "shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
-Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-eunuch'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tmhedberg/SimpylFold'
-Plug 'itchyny/lightline.vim'
-Plug 'mileszs/ack.vim'
-Plug 'Shougo/denite.nvim'
+Plug 'mattn/emmet-vim' "provides support for expanding abbreviations
+Plug 'tpope/vim-sensible' "defaults everyone can agree on
+Plug 'scrooloose/nerdcommenter' "Comment functions 
+Plug 'tmhedberg/SimpylFold' "simple, correct folding for Python
+Plug 'itchyny/lightline.vim' "light and configurable statusline
+Plug 'mileszs/ack.vim' "search tool from vim
+Plug 'Shougo/denite.nvim' "like a fuzzy finder
+Plug 'sheerun/vim-polyglot' "collection of language packs
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+if has('nvim')
+	" ncm2 completion framework configurations
+	Plug 'ncm2/ncm2'
+	Plug 'roxma/nvim-yarp'
+
+	" enable ncm2 for all buffers
+	autocmd BufEnter * call ncm2#enable_for_buffer()
+	set completeopt=noinsert,menuone,noselect
+	" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+	" found' messages
+	set shortmess+=c
+
+	" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+	inoremap <c-c> <ESC>
+
+	" When the <Enter> key is pressed while the popup menu is visible, it only
+	" hides the menu. Use this mapping to close the menu and also start a new
+	" line.
+	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+	" Use <TAB> to select the popup menu:
+	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+	" wrap existing omnifunc
+	" Note that omnifunc does not run in background and may probably block the
+	" editor. If you don't want to be blocked by omnifunc too often, you could
+	" add 180ms delay before the omni wrapper:
+	"  'on_complete': ['ncm2#on_complete#delay', 180,
+	"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+	au User Ncm2Plugin call ncm2#register_source({
+					\ 'name' : 'css',
+					\ 'priority': 9,
+					\ 'subscope_enable': 1,
+					\ 'scope': ['css','scss'],
+					\ 'mark': 'css',
+					\ 'word_pattern': '[\w\-]+',
+					\ 'complete_pattern': ':\s*',
+					\ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+					\ })
+
+
+	" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+	Plug 'ncm2/ncm2-bufword'
+	Plug 'ncm2/ncm2-path'
+	Plug 'ncm2/ncm2-jedi'
+endif
+
+Plug 'embear/vim-localvimrc'  " local vimrc files
 
 " Initialize plugin system
 call plug#end()
@@ -141,4 +193,3 @@ nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
 nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
 nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
 nnoremap <leader>l :call FzyCommandWithLines("cat " . @%, "?")<cr>
-

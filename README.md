@@ -24,3 +24,7 @@ git clone https://github.com/rashivkp/dotfiles
 cd dotfiles
 ./install
 ```
+
+## Notes
+
+- set correct python paths (`g:python_host_prog, g:python3_host_prog`) in nvim_init and install jedi
