@@ -11,23 +11,24 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jeetsukumaran/vim-pythonsense' "python movements
+Plug 'jeetsukumaran/vim-pythonsense' 	"python movements
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'Yggdroot/indentLine' "display the indention levels with thin vertical lines 
-Plug 'majutsushi/tagbar' "easy way to browse the tags of the current file
-Plug 'w0rp/ale' "asynchronous lint engine
-Plug 'tpope/vim-fugitive' "git wrapper
-Plug 'airblade/vim-gitgutter' "shows a git diff in the gutter
+Plug 'Yggdroot/indentLine' 		"display the indention levels with thin vertical lines 
+Plug 'majutsushi/tagbar' 		"easy way to browse the tags of the current file
+Plug 'w0rp/ale' 			"asynchronous lint engine
+Plug 'tpope/vim-fugitive' 		"git wrapper
+Plug 'airblade/vim-gitgutter' 		"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
-Plug 'mattn/emmet-vim' "provides support for expanding abbreviations
-Plug 'tpope/vim-sensible' "defaults everyone can agree on
-Plug 'scrooloose/nerdcommenter' "Comment functions 
-Plug 'tmhedberg/SimpylFold' "simple, correct folding for Python
-Plug 'itchyny/lightline.vim' "light and configurable statusline
-Plug 'mileszs/ack.vim' "search tool from vim
-Plug 'Shougo/denite.nvim' "like a fuzzy finder
-Plug 'sheerun/vim-polyglot' "collection of language packs
+Plug 'mattn/emmet-vim' 			"provides support for expanding abbreviations
+Plug 'tpope/vim-sensible' 		"defaults everyone can agree on
+Plug 'scrooloose/nerdcommenter' 	"Comment functions 
+Plug 'tmhedberg/SimpylFold' 		"simple, correct folding for Python
+Plug 'itchyny/lightline.vim' 		"light and configurable statusline
+Plug 'mileszs/ack.vim' 			"search tool from vim
+Plug 'Shougo/denite.nvim' 		"like a fuzzy finder
+Plug 'sheerun/vim-polyglot' 		"collection of language packs
+Plug 'davidhalter/jedi-vim' 		"autocomplet and usages, go-to assignments
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -193,3 +194,6 @@ nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
 nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
 nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
 nnoremap <leader>l :call FzyCommandWithLines("cat " . @%, "?")<cr>
+
+
+let NERDTreeIgnore = ['\.pyc$'] 
