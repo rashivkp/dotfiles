@@ -22,13 +22,15 @@ Plug 'airblade/vim-gitgutter' 		"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
 Plug 'mattn/emmet-vim' 			"provides support for expanding abbreviations
 Plug 'tpope/vim-sensible' 		"defaults everyone can agree on
-Plug 'scrooloose/nerdcommenter' 	"Comment functions 
-Plug 'tmhedberg/SimpylFold' 		"simple, correct folding for Python
+Plug 'tpope/vim-commentary' 		"Comment functions 
 Plug 'itchyny/lightline.vim' 		"light and configurable statusline
 Plug 'mileszs/ack.vim' 			"search tool from vim
 Plug 'Shougo/denite.nvim' 		"like a fuzzy finder
 Plug 'sheerun/vim-polyglot' 		"collection of language packs
 Plug 'davidhalter/jedi-vim' 		"autocomplet and usages, go-to assignments
+Plug 'Konfekt/FastFold'			"faster folding
+Plug 'zhimsel/vim-stay'			"stay at previously colsed position
+Plug 'tmhedberg/SimpylFold' 		"simple, correct folding for Python
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -89,6 +91,7 @@ call plug#end()
 
 syntax on
 filetype plugin indent on
+let mapleader=','
 
 "let g:solarized_termcolors=16|256
 set background=light
@@ -110,6 +113,8 @@ nmap zuz <Plug>(FastFoldUpdate)
 let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+"do not close folds automatically
+set foldlevelstart=99
 
 " Make sure you use single quotes
 
@@ -153,7 +158,7 @@ call denite#custom#source('line', 'matchers', ['matcher/fuzzy'])
 " Change default prompt
 call denite#custom#option('default', 'prompt', '➤ ')
 
- " change ignore_globs
+" change ignore_globs
 call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
        \ [ '.git/', '.ropeproject/', '__pycache__/*', '*.pyc',
        \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/', '*.png', '*.jpg', '*.jpeg'])
@@ -165,29 +170,57 @@ nnoremap <C-p> :Denite file_rec<cr>
 nnoremap <space>l :Denite line -auto-preview<cr>
 " }}}
 
-function! FzyCommand(choice_command, vim_command)
-  try
-    let output = system(a:choice_command . " | fzy ")
-  catch /Vim:Interrupt/
-    " Swallow errors from ^C, allow redraw! below
-  endtry
-  redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . output
-  endif
+" function! FzyCommand(choice_command, vim_command)
+"   try
+"     let output = system(a:choice_command . " | fzy ")
+"   catch /Vim:Interrupt/
+"     " Swallow errors from ^C, allow redraw! below
+"   endtry
+"   redraw!
+"   if v:shell_error == 0 && !empty(output)
+"     exec a:vim_command . ' ' . output
+"   endif
+" endfunction
+
+" function! FzyCommandWithLines(choice_command, vim_command)
+"   try
+"     let output = system(a:choice_command . " | fzy ")
+"   catch /Vim:Interrupt/
+"     " Swallow errors from ^C, allow redraw! below
+"   endtry
+"   redraw!
+"   if v:shell_error == 0 && !empty(output)
+"     exec a:vim_command . strpart(output, 0, strlen(output)-1)
+"   endif
+" endfunction
+
+function! FzyCommand(choice_command, vim_command) abort
+    let l:callback = {
+                \ 'window_id': win_getid(),
+                \ 'filename': tempname(),
+                \  'vim_command':  a:vim_command
+                \ }
+
+    function! l:callback.on_exit(job_id, data, event) abort
+        bdelete!
+        call win_gotoid(self.window_id)
+        if filereadable(self.filename)
+            try
+                let l:selected_filename = readfile(self.filename)[0]
+                exec self.vim_command . l:selected_filename
+            catch /E684/
+            endtry
+        endif
+        call delete(self.filename)
+    endfunction
+
+    botright 10 new
+    let l:term_command = a:choice_command . ' | fzy > ' .  l:callback.filename
+    silent call termopen(l:term_command, l:callback)
+    setlocal nonumber norelativenumber
+    startinsert
 endfunction
 
-function! FzyCommandWithLines(choice_command, vim_command)
-  try
-    let output = system(a:choice_command . " | fzy ")
-  catch /Vim:Interrupt/
-    " Swallow errors from ^C, allow redraw! below
-  endtry
-  redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . strpart(output, 0, strlen(output)-1)
-  endif
-endfunction
 
 nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe")<cr>
 nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
@@ -196,4 +229,19 @@ nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
 nnoremap <leader>l :call FzyCommandWithLines("cat " . @%, "?")<cr>
 
 
-let NERDTreeIgnore = ['\.pyc$'] 
+"" NERDTree configuration
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 50
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+
+"" Tabs
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap <silent> <S-t> :tabnew<CR>
