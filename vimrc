@@ -14,23 +14,24 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'jeetsukumaran/vim-pythonsense' 	"python movements
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'Yggdroot/indentLine' 		"display the indention levels with thin vertical lines 
-Plug 'majutsushi/tagbar' 		"easy way to browse the tags of the current file
-Plug 'w0rp/ale' 			"asynchronous lint engine
-Plug 'tpope/vim-fugitive' 		"git wrapper
-Plug 'airblade/vim-gitgutter' 		"shows a git diff in the gutter
+Plug 'Yggdroot/indentLine'				"display the indention levels with thin vertical lines 
+Plug 'majutsushi/tagbar' 				"easy way to browse the tags of the current file
+Plug 'w0rp/ale'							"asynchronous lint engine
+Plug 'tpope/vim-fugitive' 				"git wrapper
+Plug 'airblade/vim-gitgutter'			"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
-Plug 'mattn/emmet-vim' 			"provides support for expanding abbreviations
-Plug 'tpope/vim-sensible' 		"defaults everyone can agree on
-Plug 'tpope/vim-commentary' 		"Comment functions 
-Plug 'itchyny/lightline.vim' 		"light and configurable statusline
-Plug 'mileszs/ack.vim' 			"search tool from vim
-Plug 'Shougo/denite.nvim' 		"like a fuzzy finder
-Plug 'sheerun/vim-polyglot' 		"collection of language packs
-Plug 'davidhalter/jedi-vim' 		"autocomplet and usages, go-to assignments
-Plug 'Konfekt/FastFold'			"faster folding
-Plug 'zhimsel/vim-stay'			"stay at previously colsed position
-Plug 'tmhedberg/SimpylFold' 		"simple, correct folding for Python
+Plug 'mattn/emmet-vim'					"provides support for expanding abbreviations
+Plug 'tpope/vim-sensible' 				"defaults everyone can agree on
+Plug 'tpope/vim-commentary'				"Comment functions 
+Plug 'itchyny/lightline.vim'			"light and configurable statusline
+Plug 'mileszs/ack.vim'					"search tool from vim
+Plug 'Shougo/denite.nvim' 				"like a fuzzy finder
+Plug 'sheerun/vim-polyglot'				"collection of language packs
+Plug 'davidhalter/jedi-vim' 			"autocomplet and usages, go-to assignments
+Plug 'Konfekt/FastFold'					"faster folding
+Plug 'zhimsel/vim-stay'					"stay at previously colsed position
+Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
+Plug 'fatih/vim-go'						"Go development plugin
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -103,8 +104,8 @@ nmap <F8> :TagbarToggle<CR>
 set tags=./.git/tags;,.git/tags;./tags;
 
 " help ale-navigation-commands
-nmap <silent> <C-k> <Plug>(ale_previous)
-nmap <silent> <C-j> <Plug>(ale_next)
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " Ale https://github.com/w0rp/ale
 
@@ -245,3 +246,57 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
+
+" Keep search matches in the middle of the window and pulse the line when moving
+" to them.
+nnoremap n nzzzv:call PulseCursorLine()<cr>
+nnoremap N Nzzzv:call PulseCursorLine()<cr>
+
+" Pulse cursor ------------------------------------------------------------------- {{{
+
+function! PulseCursorLine()
+    let current_window = winnr()
+
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    hi CursorLine guibg=#2a2a2a
+    redraw
+    sleep 30m
+
+    hi CursorLine guibg=#333333
+    redraw
+    sleep 30m
+
+    hi CursorLine guibg=#3a3a3a
+    redraw
+    sleep 30m
+
+    hi CursorLine guibg=#444444
+    redraw
+    sleep 30m
+
+    hi CursorLine guibg=#4a4a4a
+    redraw
+    sleep 30m
+
+    hi CursorLine guibg=#555555
+    redraw
+    sleep 30m
+
+    execute 'hi ' . old_hi
+
+    windo set cursorline
+    execute current_window . 'wincmd w'
+endfunction
+
+" }}}
+
