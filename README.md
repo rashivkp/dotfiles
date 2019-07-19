@@ -14,6 +14,7 @@
 - [ack](https://beyondgrep.com/install/) 
 - exuberant-ctags
 - git
+- linters pylint, flake8
 
 
 ## Installation
