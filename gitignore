@@ -19,3 +19,6 @@ tags
 # Persistent undo
 [._]*.un~
 
+# pyenv
+.python-version
+

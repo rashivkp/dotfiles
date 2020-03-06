@@ -16,7 +16,7 @@ Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Yggdroot/indentLine'				"display the indention levels with thin vertical lines 
 Plug 'majutsushi/tagbar' 				"easy way to browse the tags of the current file
-Plug 'w0rp/ale'							"asynchronous lint engine
+Plug 'dense-analysis/ale'				"asynchronous lint engine
 Plug 'tpope/vim-fugitive' 				"git wrapper
 Plug 'airblade/vim-gitgutter'			"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
@@ -25,13 +25,13 @@ Plug 'tpope/vim-sensible' 				"defaults everyone can agree on
 Plug 'tpope/vim-commentary'				"Comment functions 
 Plug 'itchyny/lightline.vim'			"light and configurable statusline
 Plug 'mileszs/ack.vim'					"search tool from vim
-Plug 'Shougo/denite.nvim' 				"like a fuzzy finder
 Plug 'sheerun/vim-polyglot'				"collection of language packs
 Plug 'davidhalter/jedi-vim' 			"autocomplet and usages, go-to assignments
 Plug 'Konfekt/FastFold'					"faster folding
 Plug 'zhimsel/vim-stay'					"stay at previously colsed position
 Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
 Plug 'fatih/vim-go'						"Go development plugin
+Plug 'easymotion/vim-easymotion'		"moving shortcuts
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -106,8 +106,12 @@ set tags=./.git/tags;,.git/tags;./tags;
 " help ale-navigation-commands
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
-" Ale https://github.com/w0rp/ale
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'python': ['autopep8', 'yapf', 'isort'],
+\   'css': ['prettier']
+\}
+" Ale https://github.com/dense-analysis/ale
 
 " FastFold
 nmap zuz <Plug>(FastFoldUpdate)
@@ -116,60 +120,6 @@ let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 "do not close folds automatically
 set foldlevelstart=99
-
-" Make sure you use single quotes
-
-
-" Denite {{{
-" Change file_rec command.
-call denite#custom#var('file_rec', 'command',
-      \ ['ag', '--follow', '--nocolor', '--nogroup', '--ignore=*.pyc', '-g', ''])
-
-" Change mappings.
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-j>',
-      \ '<denite:move_to_next_line>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-k>',
-      \ '<denite:move_to_previous_line>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-t>',
-      \ '<denite:do_action:tabopen>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-v>',
-      \ '<denite:do_action:split>',
-      \ 'noremap'
-      \)
-
-" Change sorters.
-call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
-"call denite#custom#source('line', 'sorters', ['sorter/sublime'])
-call denite#custom#source('line', 'matchers', ['matcher/fuzzy'])
-
-" Change default prompt
-call denite#custom#option('default', 'prompt', '➤ ')
-
-" change ignore_globs
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-       \ [ '.git/', '.ropeproject/', '__pycache__/*', '*.pyc',
-       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/', '*.png', '*.jpg', '*.jpeg'])
-
-nnoremap <C-p> :Denite file_rec<cr>
-"nnoremap <space>s :Denite file_rec -default-action=split<cr>
-"nnoremap <space>e :Denite file_rec -winheight=10 <cr>
-"nnoremap <space>m :Denite file_mru -winheight=10 -vertical-preview -auto-preview <cr>
-nnoremap <space>l :Denite line -auto-preview<cr>
-" }}}
 
 " function! FzyCommand(choice_command, vim_command)
 "   try
@@ -268,29 +218,23 @@ function! PulseCursorLine()
     let old_hi = split(old_hi, '\n')[0]
     let old_hi = substitute(old_hi, 'xxx', '', '')
 
-    hi CursorLine guibg=#2a2a2a
-    redraw
-    sleep 30m
+	if has("gui_running")
+		hi CursorLine guibg=#3a3a3a
+		redraw
+		sleep 2m
 
-    hi CursorLine guibg=#333333
-    redraw
-    sleep 30m
+		hi CursorLine guibg=#555555
+		redraw
+		sleep 2m
+    else
+		hi CursorLine ctermbg=244
+		redraw
+		sleep 2m
 
-    hi CursorLine guibg=#3a3a3a
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#444444
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#4a4a4a
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#555555
-    redraw
-    sleep 30m
+		hi CursorLine ctermbg=250
+		redraw
+		sleep 2m
+    endif
 
     execute 'hi ' . old_hi
 
@@ -300,3 +244,6 @@ endfunction
 
 " }}}
 
+let g:ack_mappings = { "go": "<CR>:call PulseCursorLine()<CR><C-W>j" }
+set number relativenumber
+set nu rnu
