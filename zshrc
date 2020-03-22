@@ -11,8 +11,8 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # command completions docker @see https://docs.docker.com/compose/completion/#install-command-completion
@@ -43,9 +43,9 @@ fi
 zplug load
 
 # enabling virtualenv when new window opens
-if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
-  workon_cwd
-fi
+# if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
+#   workon_cwd
+# fi
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff='nvim -d'

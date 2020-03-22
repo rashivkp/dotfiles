@@ -5,6 +5,8 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 80
 
 # Matches multiple files with brace expansion notation
 # Set default charset
@@ -29,9 +31,16 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
+[*.html]
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_style = space
+indent_size = 4
+
 # Matches the exact files either package.json or .travis.yml
 [{package.json,.travis.yml}]
 indent_style = space
 indent_size = 2
-
 
