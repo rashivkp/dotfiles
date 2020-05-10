@@ -25,6 +25,7 @@ export EDITOR="nvim"
 
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-history-substring-search"
+zplug "plugins/laravel5", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh
 # zplug "plugins/virtualenvwrapper", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
@@ -51,6 +52,8 @@ zplug load
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff='nvim -d'
+alias mux="tmuxinator"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+

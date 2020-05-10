@@ -13,6 +13,7 @@
     ~/.gitignore:
     ~/.config/nvim/init.vim: nvim_init
     ~/.oh-my-zsh/custom/themes/customfishy.zsh-theme: zsh/customfishy.zsh-theme
+    ~/.vim/ftplugin/php_mappings.vim: php_mappings.vim
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

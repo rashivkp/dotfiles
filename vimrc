@@ -5,7 +5,8 @@ call plug#begin('~/.vim/plugged')
 
 
 " Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -32,6 +33,15 @@ Plug 'zhimsel/vim-stay'					"stay at previously colsed position
 Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
 Plug 'fatih/vim-go'						"Go development plugin
 Plug 'easymotion/vim-easymotion'		"moving shortcuts
+Plug 'ludovicchabant/vim-gutentags'     "tags creation automatically
+Plug 'stephpy/vim-php-cs-fixer'
+Plug 'StanAngeloff/php.vim'
+Plug 'joonty/vdebug'
+Plug 'tobyS/vmustache'
+Plug 'tobyS/pdv'
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2 
+
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -41,6 +51,7 @@ if has('nvim')
 	" ncm2 completion framework configurations
 	Plug 'ncm2/ncm2'
 	Plug 'roxma/nvim-yarp'
+	Plug 'phpactor/ncm2-phpactor'
 
 	" enable ncm2 for all buffers
 	autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -99,7 +110,7 @@ set background=light
 colorscheme solarized
 
 let Tlist_Use_Right_Window = 1
-map <F7> Oimport ipdb; ipdb.set_trace()
+" map <F7> Oimport ipdb; ipdb.set_trace()
 nmap <F8> :TagbarToggle<CR>
 set tags=./.git/tags;,.git/tags;./tags;
 
@@ -111,6 +122,9 @@ let g:ale_fixers = {
 \   'python': ['autopep8', 'yapf', 'isort'],
 \   'css': ['prettier']
 \}
+let g:php_cs_fixer_path = $HOME."/bin/php-cs-fixer"
+let g:php_cs_fixer_dry_run = 1
+
 " Ale https://github.com/dense-analysis/ale
 
 " FastFold
@@ -169,9 +183,11 @@ function! FzyCommand(choice_command, vim_command) abort
     let l:term_command = a:choice_command . ' | fzy > ' .  l:callback.filename
     silent call termopen(l:term_command, l:callback)
     setlocal nonumber norelativenumber
-    startinsert
+	startinsert
 endfunction
 
+nnoremap <leader>p :call pdv#DocumentWithSnip()<CR>
+vnoremap <M-/> <Esc>/\%V
 
 nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe")<cr>
 nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
@@ -201,6 +217,7 @@ nnoremap <silent> <S-t> :tabnew<CR>
 " to them.
 nnoremap n nzzzv:call PulseCursorLine()<cr>
 nnoremap N Nzzzv:call PulseCursorLine()<cr>
+
 
 " Pulse cursor ------------------------------------------------------------------- {{{
 
@@ -247,3 +264,5 @@ endfunction
 let g:ack_mappings = { "go": "<CR>:call PulseCursorLine()<CR><C-W>j" }
 set number relativenumber
 set nu rnu
+
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"

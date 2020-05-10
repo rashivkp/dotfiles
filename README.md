@@ -2,9 +2,10 @@
 
 ## Requirements
 
+- curl
 - neovim
-- vim
 - nvm
+- rvm
 - zsh
 - tmux
 - [silversearcher-ag](https://github.com/ggreer/the_silver_searcher)

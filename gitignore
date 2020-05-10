@@ -16,6 +16,9 @@ Session.vim
 *~
 # Auto-generated tag files
 tags
+tags.lock
+tags.temp
+
 # Persistent undo
 [._]*.un~
 
