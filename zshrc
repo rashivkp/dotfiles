@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/go/bin/:$PATH
+export PATH=$HOME/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/go/bin/:$HOME/src/sonar-scanner-cli-4.2.0.1873-linux/sonar-scanner-4.2.0.1873-linux/bin:$PATH
 
 export ZSH=~/.oh-my-zsh
 ZSH_THEME="customfishy"
@@ -25,11 +25,14 @@ export EDITOR="nvim"
 
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-history-substring-search"
+zplug "plugins/laravel5", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/virtualenvwrapper", from:oh-my-zsh
+# zplug "plugins/virtualenvwrapper", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/golang", from:oh-my-zsh
+zplug "plugins/pyenv", from:oh-my-zsh
+zplug "plugins/poetry", from:oh-my-zsh
 # Syntax highlighting for commands, load last
 zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:3
 
@@ -49,6 +52,8 @@ zplug load
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff='nvim -d'
+alias mux="tmuxinator"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+

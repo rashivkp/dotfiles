@@ -5,7 +5,8 @@ call plug#begin('~/.vim/plugged')
 
 
 " Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -16,7 +17,7 @@ Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Yggdroot/indentLine'				"display the indention levels with thin vertical lines 
 Plug 'majutsushi/tagbar' 				"easy way to browse the tags of the current file
-Plug 'w0rp/ale'							"asynchronous lint engine
+Plug 'dense-analysis/ale'				"asynchronous lint engine
 Plug 'tpope/vim-fugitive' 				"git wrapper
 Plug 'airblade/vim-gitgutter'			"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
@@ -25,13 +26,22 @@ Plug 'tpope/vim-sensible' 				"defaults everyone can agree on
 Plug 'tpope/vim-commentary'				"Comment functions 
 Plug 'itchyny/lightline.vim'			"light and configurable statusline
 Plug 'mileszs/ack.vim'					"search tool from vim
-Plug 'Shougo/denite.nvim' 				"like a fuzzy finder
 Plug 'sheerun/vim-polyglot'				"collection of language packs
 Plug 'davidhalter/jedi-vim' 			"autocomplet and usages, go-to assignments
 Plug 'Konfekt/FastFold'					"faster folding
 Plug 'zhimsel/vim-stay'					"stay at previously colsed position
 Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
 Plug 'fatih/vim-go'						"Go development plugin
+Plug 'easymotion/vim-easymotion'		"moving shortcuts
+Plug 'ludovicchabant/vim-gutentags'     "tags creation automatically
+Plug 'stephpy/vim-php-cs-fixer'
+Plug 'StanAngeloff/php.vim'
+Plug 'joonty/vdebug'
+Plug 'tobyS/vmustache'
+Plug 'tobyS/pdv'
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2 
+
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -41,6 +51,7 @@ if has('nvim')
 	" ncm2 completion framework configurations
 	Plug 'ncm2/ncm2'
 	Plug 'roxma/nvim-yarp'
+	Plug 'phpactor/ncm2-phpactor'
 
 	" enable ncm2 for all buffers
 	autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -99,15 +110,22 @@ set background=light
 colorscheme solarized
 
 let Tlist_Use_Right_Window = 1
-map <F7> Oimport ipdb; ipdb.set_trace()
+" map <F7> Oimport ipdb; ipdb.set_trace()
 nmap <F8> :TagbarToggle<CR>
 set tags=./.git/tags;,.git/tags;./tags;
 
 " help ale-navigation-commands
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'python': ['autopep8', 'yapf', 'isort'],
+\   'css': ['prettier']
+\}
+let g:php_cs_fixer_path = $HOME."/bin/php-cs-fixer"
+let g:php_cs_fixer_dry_run = 1
 
-" Ale https://github.com/w0rp/ale
+" Ale https://github.com/dense-analysis/ale
 
 " FastFold
 nmap zuz <Plug>(FastFoldUpdate)
@@ -116,60 +134,6 @@ let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 "do not close folds automatically
 set foldlevelstart=99
-
-" Make sure you use single quotes
-
-
-" Denite {{{
-" Change file_rec command.
-call denite#custom#var('file_rec', 'command',
-      \ ['ag', '--follow', '--nocolor', '--nogroup', '--ignore=*.pyc', '-g', ''])
-
-" Change mappings.
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-j>',
-      \ '<denite:move_to_next_line>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-k>',
-      \ '<denite:move_to_previous_line>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-t>',
-      \ '<denite:do_action:tabopen>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-v>',
-      \ '<denite:do_action:split>',
-      \ 'noremap'
-      \)
-
-" Change sorters.
-call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
-"call denite#custom#source('line', 'sorters', ['sorter/sublime'])
-call denite#custom#source('line', 'matchers', ['matcher/fuzzy'])
-
-" Change default prompt
-call denite#custom#option('default', 'prompt', '➤ ')
-
-" change ignore_globs
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-       \ [ '.git/', '.ropeproject/', '__pycache__/*', '*.pyc',
-       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/', '*.png', '*.jpg', '*.jpeg'])
-
-nnoremap <C-p> :Denite file_rec<cr>
-"nnoremap <space>s :Denite file_rec -default-action=split<cr>
-"nnoremap <space>e :Denite file_rec -winheight=10 <cr>
-"nnoremap <space>m :Denite file_mru -winheight=10 -vertical-preview -auto-preview <cr>
-nnoremap <space>l :Denite line -auto-preview<cr>
-" }}}
 
 " function! FzyCommand(choice_command, vim_command)
 "   try
@@ -219,9 +183,11 @@ function! FzyCommand(choice_command, vim_command) abort
     let l:term_command = a:choice_command . ' | fzy > ' .  l:callback.filename
     silent call termopen(l:term_command, l:callback)
     setlocal nonumber norelativenumber
-    startinsert
+	startinsert
 endfunction
 
+nnoremap <leader>p :call pdv#DocumentWithSnip()<CR>
+vnoremap <M-/> <Esc>/\%V
 
 nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe")<cr>
 nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
@@ -252,6 +218,7 @@ nnoremap <silent> <S-t> :tabnew<CR>
 nnoremap n nzzzv:call PulseCursorLine()<cr>
 nnoremap N Nzzzv:call PulseCursorLine()<cr>
 
+
 " Pulse cursor ------------------------------------------------------------------- {{{
 
 function! PulseCursorLine()
@@ -268,29 +235,23 @@ function! PulseCursorLine()
     let old_hi = split(old_hi, '\n')[0]
     let old_hi = substitute(old_hi, 'xxx', '', '')
 
-    hi CursorLine guibg=#2a2a2a
-    redraw
-    sleep 30m
+	if has("gui_running")
+		hi CursorLine guibg=#3a3a3a
+		redraw
+		sleep 2m
 
-    hi CursorLine guibg=#333333
-    redraw
-    sleep 30m
+		hi CursorLine guibg=#555555
+		redraw
+		sleep 2m
+    else
+		hi CursorLine ctermbg=244
+		redraw
+		sleep 2m
 
-    hi CursorLine guibg=#3a3a3a
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#444444
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#4a4a4a
-    redraw
-    sleep 30m
-
-    hi CursorLine guibg=#555555
-    redraw
-    sleep 30m
+		hi CursorLine ctermbg=250
+		redraw
+		sleep 2m
+    endif
 
     execute 'hi ' . old_hi
 
@@ -300,3 +261,8 @@ endfunction
 
 " }}}
 
+let g:ack_mappings = { "go": "<CR>:call PulseCursorLine()<CR><C-W>j" }
+set number relativenumber
+set nu rnu
+
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
