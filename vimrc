@@ -15,7 +15,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'jeetsukumaran/vim-pythonsense' 	"python movements
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'Yggdroot/indentLine'				"display the indention levels with thin vertical lines 
+Plug 'Yggdroot/indentLine'				"display the indention levels with thin vertical lines
 Plug 'majutsushi/tagbar' 				"easy way to browse the tags of the current file
 Plug 'dense-analysis/ale'				"asynchronous lint engine
 Plug 'tpope/vim-fugitive' 				"git wrapper
@@ -23,7 +23,7 @@ Plug 'airblade/vim-gitgutter'			"shows a git diff in the gutter
 Plug 'altercation/vim-colors-solarized'
 Plug 'mattn/emmet-vim'					"provides support for expanding abbreviations
 Plug 'tpope/vim-sensible' 				"defaults everyone can agree on
-Plug 'tpope/vim-commentary'				"Comment functions 
+Plug 'tpope/vim-commentary'				"Comment functions
 Plug 'itchyny/lightline.vim'			"light and configurable statusline
 Plug 'mileszs/ack.vim'					"search tool from vim
 Plug 'sheerun/vim-polyglot'				"collection of language packs
@@ -39,8 +39,8 @@ Plug 'StanAngeloff/php.vim'
 Plug 'joonty/vdebug'
 Plug 'tobyS/vmustache'
 Plug 'tobyS/pdv'
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
-Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2 
+Plug 'phpactor/phpactor' ,  {'do': 'composer install --no-dev -o', 'for': 'php'}
+Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
 
 
 if executable('ag')
@@ -106,7 +106,7 @@ filetype plugin indent on
 let mapleader=','
 
 "let g:solarized_termcolors=16|256
-set background=light
+set background=dark
 colorscheme solarized
 
 let Tlist_Use_Right_Window = 1
