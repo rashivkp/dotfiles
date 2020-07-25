@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 
 
 " Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " On-demand loading
@@ -32,7 +31,6 @@ Plug 'Konfekt/FastFold'					"faster folding
 Plug 'zhimsel/vim-stay'					"stay at previously colsed position
 Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
 Plug 'fatih/vim-go'						"Go development plugin
-Plug 'easymotion/vim-easymotion'		"moving shortcuts
 Plug 'ludovicchabant/vim-gutentags'     "tags creation automatically
 Plug 'stephpy/vim-php-cs-fixer'
 Plug 'StanAngeloff/php.vim'
@@ -42,16 +40,26 @@ Plug 'tobyS/pdv'
 Plug 'phpactor/phpactor' ,  {'do': 'composer install --no-dev -o', 'for': 'php'}
 Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+Plug 'Shougo/echodoc.vim'
+set cmdheight=2
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'signature'
+let g:phpactorPhpBin = 'php'
+let g:phpactorbinpath = 'phpactor'
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+autocmd FileType php setlocal omnifunc=phpactor#Complete
+
 if has('nvim')
 	" ncm2 completion framework configurations
 	Plug 'ncm2/ncm2'
 	Plug 'roxma/nvim-yarp'
-	Plug 'phpactor/ncm2-phpactor'
 
 	" enable ncm2 for all buffers
 	autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -117,13 +125,25 @@ set tags=./.git/tags;,.git/tags;./tags;
 " help ale-navigation-commands
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+let g:ale_php_phpcs_executable='phpcs'
+let g:ale_php_php_cs_fixer_executable='php-cs-fixer'
+let g:ale_fixers = {}
+let g:php_cs_fixer_path = $HOME."/bin/php-cs-fixer"
+let g:php_cs_fixer_dry_run = 1
+let g:php_cs_fixer_dry_run = 1
+let g:ale_php_langserver_executable=$HOME."/src/php-language-server/bin/php-language-server.php"
+
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'python': ['autopep8', 'yapf', 'isort'],
-\   'css': ['prettier']
+\   'css': ['prettier'],
+\	'php': ['php_cs_fixer']
 \}
-let g:php_cs_fixer_path = $HOME."/bin/php-cs-fixer"
-let g:php_cs_fixer_dry_run = 1
+
+" let g:ale_linters = {
+" \   'php': ['php']
+" \}
 
 " Ale https://github.com/dense-analysis/ale
 

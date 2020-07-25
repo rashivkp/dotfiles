@@ -25,3 +25,5 @@ tags.temp
 # pyenv
 .python-version
 
+.php_cs.cache
+phpstan.neon
