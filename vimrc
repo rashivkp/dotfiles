@@ -42,19 +42,14 @@ Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublim
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
-Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/echodoc.vim'				"show function signature at bottom
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
-let g:phpactorPhpBin = 'php'
-let g:phpactorbinpath = 'phpactor'
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-
-autocmd FileType php setlocal omnifunc=phpactor#Complete
 
 if has('nvim')
 	" ncm2 completion framework configurations
@@ -80,6 +75,20 @@ if has('nvim')
 	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
+	Plug 'ncm2/ncm2-ultisnips'
+	Plug 'SirVer/ultisnips'
+
+	" Press enter key to trigger snippet expansion
+	" The parameters are the same as `:help feedkeys()`
+	inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+	" c-j c-k for moving in snippet
+	let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+	let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+	let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+	let g:UltiSnipsRemoveSelectModeMappings = 0
+
 	" wrap existing omnifunc
 	" Note that omnifunc does not run in background and may probably block the
 	" editor. If you don't want to be blocked by omnifunc too often, you could
@@ -97,11 +106,11 @@ if has('nvim')
 					\ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
 					\ })
 
-
 	" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
 	Plug 'ncm2/ncm2-bufword'
 	Plug 'ncm2/ncm2-path'
 	Plug 'ncm2/ncm2-jedi'
+	Plug 'phpactor/ncm2-phpactor'
 endif
 
 Plug 'embear/vim-localvimrc'  " local vimrc files
@@ -126,24 +135,23 @@ set tags=./.git/tags;,.git/tags;./tags;
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
+let g:ale_use_global_executables = 1
 let g:ale_php_phpcs_executable='phpcs'
 let g:ale_php_php_cs_fixer_executable='php-cs-fixer'
-let g:ale_fixers = {}
 let g:php_cs_fixer_path = $HOME."/bin/php-cs-fixer"
 let g:php_cs_fixer_dry_run = 1
-let g:php_cs_fixer_dry_run = 1
-let g:ale_php_langserver_executable=$HOME."/src/php-language-server/bin/php-language-server.php"
+let g:ale_php_phpcs_standard = "PSR12"
 
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'python': ['autopep8', 'yapf', 'isort'],
 \   'css': ['prettier'],
-\	'php': ['php_cs_fixer']
+\   'php': ['phpcbf', 'php_cs_fixer', 'trim_whitespace']
 \}
 
-" let g:ale_linters = {
-" \   'php': ['php']
-" \}
+let g:ale_linters = {
+\   'php': ['php', 'phpcs']
+\}
 
 " Ale https://github.com/dense-analysis/ale
 
@@ -154,30 +162,6 @@ let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 "do not close folds automatically
 set foldlevelstart=99
-
-" function! FzyCommand(choice_command, vim_command)
-"   try
-"     let output = system(a:choice_command . " | fzy ")
-"   catch /Vim:Interrupt/
-"     " Swallow errors from ^C, allow redraw! below
-"   endtry
-"   redraw!
-"   if v:shell_error == 0 && !empty(output)
-"     exec a:vim_command . ' ' . output
-"   endif
-" endfunction
-
-" function! FzyCommandWithLines(choice_command, vim_command)
-"   try
-"     let output = system(a:choice_command . " | fzy ")
-"   catch /Vim:Interrupt/
-"     " Swallow errors from ^C, allow redraw! below
-"   endtry
-"   redraw!
-"   if v:shell_error == 0 && !empty(output)
-"     exec a:vim_command . strpart(output, 0, strlen(output)-1)
-"   endif
-" endfunction
 
 function! FzyCommand(choice_command, vim_command) abort
     let l:callback = {
@@ -209,10 +193,10 @@ endfunction
 nnoremap <leader>p :call pdv#DocumentWithSnip()<CR>
 vnoremap <M-/> <Esc>/\%V
 
-nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe")<cr>
-nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
-nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
-nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
+nnoremap <leader>t :call FzyCommand("ag . --silent -l -g ''", ":tabe ")<cr>
+nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e ")<cr>
+nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs ")<cr>
+nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp ")<cr>
 nnoremap <leader>l :call FzyCommandWithLines("cat " . @%, "?")<cr>
 
 
@@ -225,7 +209,6 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 
 "" Tabs
@@ -237,9 +220,6 @@ nnoremap <silent> <S-t> :tabnew<CR>
 " to them.
 nnoremap n nzzzv:call PulseCursorLine()<cr>
 nnoremap N Nzzzv:call PulseCursorLine()<cr>
-
-
-" Pulse cursor ------------------------------------------------------------------- {{{
 
 function! PulseCursorLine()
     let current_window = winnr()
@@ -278,8 +258,6 @@ function! PulseCursorLine()
     windo set cursorline
     execute current_window . 'wincmd w'
 endfunction
-
-" }}}
 
 let g:ack_mappings = { "go": "<CR>:call PulseCursorLine()<CR><C-W>j" }
 set number relativenumber
