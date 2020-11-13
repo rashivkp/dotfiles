@@ -43,6 +43,12 @@ Plug 'dyng/ctrlsf.vim'					"An ack.vim alternative mimics Ctrl-Shift-F on Sublim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/echodoc.vim'				"show function signature at bottom
+
+Plug 'ctrlpvim/ctrlp.vim'               "Fuzzy file, buffer, mru, tag, etc finder
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_cmd = 'CtrlPBuffer'
+
+
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
@@ -123,7 +129,7 @@ filetype plugin indent on
 let mapleader=','
 
 "let g:solarized_termcolors=16|256
-set background=dark
+set background=light
 colorscheme solarized
 
 let Tlist_Use_Right_Window = 1
