@@ -28,7 +28,6 @@ Plug 'mileszs/ack.vim'					"search tool from vim
 Plug 'sheerun/vim-polyglot'				"collection of language packs
 Plug 'davidhalter/jedi-vim' 			"autocomplet and usages, go-to assignments
 Plug 'Konfekt/FastFold'					"faster folding
-Plug 'zhimsel/vim-stay'					"stay at previously colsed position
 Plug 'tmhedberg/SimpylFold'				"simple, correct folding for Python
 Plug 'fatih/vim-go'						"Go development plugin
 Plug 'ludovicchabant/vim-gutentags'     "tags creation automatically
