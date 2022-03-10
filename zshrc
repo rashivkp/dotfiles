@@ -1,8 +1,23 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/go/bin/:$HOME/src/sonar-scanner-cli-4.2.0.1873-linux/sonar-scanner-4.2.0.1873-linux/bin:$PATH
+
+
+export PATH=$PATH:$HOME/bin:$HOME/.config/composer/vendor/bin
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/local/go/bin
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export JAVA_HOME=/usr/lib/jvm/default-java
+
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 
 export ZSH=~/.oh-my-zsh
 ZSH_THEME="customfishy"
+# ZSH_THEME="fishy"
 HIST_STAMPS="dd-mm-yyyy"
 source $ZSH/oh-my-zsh.sh
 

@@ -12,10 +12,11 @@
 - [fzy](https://github.com/jhawthorn/fzy)
 - [tmuxinator](https://github.com/tmuxinator/tmuxinator)
 - pip
-- [ack](https://beyondgrep.com/install/) 
+- [ack](https://beyondgrep.com/install/)
 - exuberant-ctags
 - git
 - linters pylint, flake8
+- python tools: isort, autopep8, yapf
 
 
 ## Installation
