@@ -1,9 +1,10 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-source ~/.vimrc
 " @TODO make this dynamic from local config
-let g:python_host_prog  = '/home/rashi/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/home/rashi/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog  = '/home/rashi/.pyenv/versions/neovim-py3/bin/python'
+let g:python_host_prog  = '/home/rashi/.pyenv/versions/neovim-py2/bin/python'
+
+source ~/.vimrc
 
 
 function! FzyCommand(choice_command, vim_command) abort

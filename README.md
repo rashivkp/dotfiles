@@ -15,8 +15,8 @@
 - [ack](https://beyondgrep.com/install/)
 - exuberant-ctags
 - git
-- linters pylint, flake8
-- python tools: isort, autopep8, yapf
+- linters:  pylint, flake8
+- python tools: isort, autopep8, yapf, mypy
 
 
 ## Installation
