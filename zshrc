@@ -7,7 +7,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/go/bin
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export JAVA_HOME=/usr/lib/jvm/default-java
+# export JAVA_HOME=/usr/lib/jvm/default-java
 
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -60,9 +60,11 @@ alias vim="nvim"
 alias vi="nvim"
 alias vimdiff='nvim -d'
 alias mux="tmuxinator"
+alias svim='vim -u ~/.SpaceVim/vimrc'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export HTTP_X_APPENGINE_CRON=True
+export PATH=/usr/bin:$PATH

@@ -1,7 +1,8 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 " @TODO make this dynamic from local config
-let g:python3_host_prog  = '/home/rashi/.pyenv/versions/neovim-py3/bin/python'
+"let g:python3_host_prog  = '/home/rashi/.pyenv/versions/neovim-py3/bin/python'
+let g:python3_host_prog  = '/home/rashi/.pyenv/versions/3.7.13/envs/str/bin/python3.7'
 let g:python_host_prog  = '/home/rashi/.pyenv/versions/neovim-py2/bin/python'
 
 source ~/.vimrc

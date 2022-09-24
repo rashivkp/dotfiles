@@ -140,6 +140,7 @@ set tags=./.git/tags;,.git/tags;./tags;
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
+let g:ale_completion_enabled = 1
 let g:ale_use_global_executables = 1
 let g:ale_php_phpcs_executable='phpcs'
 let g:ale_php_php_cs_fixer_executable='php-cs-fixer'
@@ -149,7 +150,7 @@ let g:ale_php_phpcs_standard = "PSR12"
 
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
-\   'python': ['autopep8', 'yapf', 'isort'],
+\   'python': ['autopep8', 'isort', 'autoimport', 'black'],
 \   'css': ['prettier'],
 \   'php': ['phpcbf', 'php_cs_fixer', 'trim_whitespace']
 \}
