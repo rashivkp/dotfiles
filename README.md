@@ -17,6 +17,7 @@
 - git
 - linters:  pylint, flake8
 - python tools: isort, autopep8, yapf, mypy
+- kitty
 
 
 ## Installation
