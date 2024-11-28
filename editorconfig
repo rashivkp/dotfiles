@@ -15,7 +15,7 @@ indent_style = space
 charset = utf-8
 
 # 4 space indentation
-[*.py, *.php, *.go, *.sql]
+[*.{py,php,go,sql}]
 indent_style = space
 indent_size = 4
 
@@ -28,15 +28,7 @@ indent_style = space
 indent_style = space
 indent_size = 2
 
-[*.json, *.yml]
-indent_style = space
-indent_size = 2
-
-[*.vue]
-indent_style = space
-indent_size = 2
-
-[*.html]
+[*.{json,yml,jsx,vue,html}]
 indent_style = space
 indent_size = 2
 
